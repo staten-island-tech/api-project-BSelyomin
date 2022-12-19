@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div class="hud">
+      <div class="control">
+          <h1 class="label">Click the map</h1>
+          <canvas id="canvas" width="1080" height="540"></canvas>
+      </div>
+      <div class="key">
+        <div class="title">
+          <h1 id="title">Weather Information</h1>
+        </div>
+        <ul class="info">
+          <li class="opt" id="lat">Latitude:</li>
+          <li class="opt" id="long">Longitude:</li>
+          <li class="opt" id="temp">Temperature:</li>
+          <li class="opt" id="speed">Wind Speed:</li>
+          <li class="opt" id="weat">Weather:</li>
+        </ul>
+      </div>
+    </div>
+    <script type="module" src="./js/canvas.js"></script>
+  </body>
+</html>
