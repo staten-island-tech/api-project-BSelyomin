@@ -31,11 +31,15 @@ canvas.addEventListener("mousedown", function (e) {
 });
 
 const getWeather = async ({ longitude, latitude }) => {
-  let response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,weathercode,windspeed_10m&current_weather=true`
-  );
-  let data = await response.json();
-  return data;
+  try {
+    let response = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,weathercode,windspeed_10m&current_weather=true`
+    );
+    let data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 async function display(canvas, event) {
