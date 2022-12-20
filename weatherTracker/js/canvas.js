@@ -1,6 +1,42 @@
 import "../style.css";
 import { weatherCodes } from "./weatherCodes";
 
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let width = 1;
+
+window.onresize = function () {
+  console.log("resize");
+  watchMedia();
+};
+
+window.onload = function () {
+  watchMedia();
+};
+function watchMedia() {
+  if (window.matchMedia("(min-width: 1151px)").matches) {
+    background.src = "/equirectanglular.png";
+    ctx.canvas.width = 1080;
+    ctx.canvas.height = 540;
+    width = 1;
+  } else if (
+    window.matchMedia("(max-width: 1150px)").matches &
+    window.matchMedia("(min-width: 751)").matches
+  ) {
+    background.src = "/equirectanglular2.png";
+    ctx.canvas.width = 720;
+    ctx.canvas.height = 360;
+    width = 2;
+  }
+  //   else if (window.matchMedia("(max-width: 750)").matches) {
+  //     background.src = "/equirectanglular3.png";
+  //     ctx.canvas.width = 540;
+  //     ctx.canvas.height = 270;
+  //     width = 3;
+  //   }
+  clearScreen();
+}
+
 const label = {
   lat: document.querySelector("#lat"),
   long: document.querySelector("#long"),
@@ -9,11 +45,7 @@ const label = {
   weat: document.querySelector("#weat"),
 };
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-
 let background = new Image();
-background.src = "/equirectanglular.png";
 
 // Make sure the image is loaded first otherwise nothing will draw.
 background.onload = function () {
@@ -38,7 +70,7 @@ const getWeather = async ({ longitude, latitude }) => {
     let data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.log("test");
   }
 };
 
@@ -60,8 +92,11 @@ function getCursorPosition(canvas, event) {
 }
 
 function convetCords({ x, y }) {
-  let longitude = Math.round(10 * (x / 3 - 180)) / 10;
-  let latitude = Math.round(10 * (y / 3 - 90)) / 10;
+  if (width == 1080) {
+    let longitude = Math.round(10 * (x / 3 - 180)) / 10;
+    let latitude = (Math.round(10 * (y / 3 - 90)) / 10) * -1;
+  }
+
   if (longitude > 180) {
     longitude = 180;
   } else if (longitude < -180) {
