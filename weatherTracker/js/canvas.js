@@ -21,7 +21,7 @@ function match(px, input) {
 background.onload = function () {
   watchMedia();
 };
-window.onload = function () {
+window.onload = () => {
   watchMedia();
 };
 function watchMedia() {
@@ -104,13 +104,36 @@ function getCursorPosition(canvas, event) {
   const rect = canvas.getBoundingClientRect();
   const x = Math.round(event.clientX - rect.left - 16);
   const y = Math.round(event.clientY - rect.top - 16);
+  console.log(x, y);
   return { x, y };
 }
 
 function convetCords({ x, y }) {
+  let latitude = 0;
+  let longitude = 0;
+  switch (width) {
+    case 1:
+      longitude = Math.round(10 * (x / 3 - 180)) / 10;
+      latitude = (Math.round(10 * (y / 3 - 90)) / 10) * -1;
+      break;
+    case 2:
+      longitude = Math.round(10 * (x / 2 - 180)) / 10;
+      latitude = (Math.round(10 * (y / 2 - 90)) / 10) * -1;
+      break;
+    case 3:
+      longitude = Math.round(10 * ((2 * x) / 3 - 180)) / 10;
+      latitude = (Math.round(10 * ((2 * y) / 3 - 90)) / 10) * -1;
+      break;
+    case 4:
+      longitude = Math.round(10 * (x - 180)) / 10;
+      latitude = (Math.round(10 * (y - 90)) / 10) * -1;
+      break;
+    case 5:
+      longitude = Math.round(10 * ((3 * x) / 2 - 180)) / 10;
+      latitude = (Math.round(10 * ((3 * y) / 2 - 90)) / 10) * -1;
+  }
+
   if (width == 1080) {
-    let longitude = Math.round(10 * (x / 3 - 180)) / 10;
-    let latitude = (Math.round(10 * (y / 3 - 90)) / 10) * -1;
   }
 
   if (longitude > 180) {
