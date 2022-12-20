@@ -4,36 +4,57 @@ import { weatherCodes } from "./weatherCodes";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let width = 1;
+let background = new Image();
 
 window.onresize = function () {
   console.log("resize");
   watchMedia();
 };
 
+function match(px, input) {
+  if (input === "min") {
+    return window.matchMedia(`(min-width: ${px}px)`).matches;
+  } else {
+    return window.matchMedia(`(max-width: ${px}px)`).matches;
+  }
+}
+background.onload = function () {
+  watchMedia();
+};
 window.onload = function () {
   watchMedia();
 };
 function watchMedia() {
-  if (window.matchMedia("(min-width: 1151px)").matches) {
-    background.src = "/equirectanglular.png";
-    ctx.canvas.width = 1080;
-    ctx.canvas.height = 540;
-    width = 1;
-  } else if (
-    window.matchMedia("(max-width: 1150px)").matches &
-    window.matchMedia("(min-width: 751)").matches
-  ) {
-    background.src = "/equirectanglular2.png";
-    ctx.canvas.width = 720;
-    ctx.canvas.height = 360;
-    width = 2;
+  switch (true) {
+    case match(1151, "min"):
+      background.src = "/equirectanglular.png";
+      ctx.canvas.width = 1080;
+      width = 1;
+      break;
+
+    case match(1150) && match(751, "min"):
+      background.src = "/equirectanglular2.png";
+      ctx.canvas.width = 720;
+      width = 2;
+      break;
+
+    case match(750) && match(561, "min"):
+      background.src = "/equirectanglular3.png";
+      ctx.canvas.width = 540;
+      width = 3;
+      break;
+
+    case match(560) && match(381, "min"):
+      background.src = "/equirectanglular4.png";
+      ctx.canvas.width = 360;
+      width = 4;
+      break;
+    case match(380):
+      background.src = "/equirectanglular5.png";
+      ctx.canvas.width = 240;
+      width = 5;
   }
-  //   else if (window.matchMedia("(max-width: 750)").matches) {
-  //     background.src = "/equirectanglular3.png";
-  //     ctx.canvas.width = 540;
-  //     ctx.canvas.height = 270;
-  //     width = 3;
-  //   }
+  ctx.canvas.height = ctx.canvas.width / 2;
   clearScreen();
 }
 
@@ -45,12 +66,7 @@ const label = {
   weat: document.querySelector("#weat"),
 };
 
-let background = new Image();
-
 // Make sure the image is loaded first otherwise nothing will draw.
-background.onload = function () {
-  clearScreen();
-};
 
 function clearScreen() {
   ctx.fillStyle = "black";
