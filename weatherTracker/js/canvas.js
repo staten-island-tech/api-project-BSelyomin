@@ -18,8 +18,11 @@ function match(px, input) {
     return window.matchMedia(`(max-width: ${px}px)`).matches;
   }
 }
+
+let temp = false;
+
 background.onload = function () {
-  watchMedia();
+  clearScreen();
 };
 window.onload = () => {
   watchMedia();
@@ -96,7 +99,7 @@ async function display(canvas, event) {
   let converted = convetCords(cursorPos);
   let data = await getWeather(converted);
   let code = decipher(data);
-  write(data, code);
+  write(data, code, converted);
   marker(cursorPos);
 }
 
@@ -104,7 +107,6 @@ function getCursorPosition(canvas, event) {
   const rect = canvas.getBoundingClientRect();
   const x = Math.round(event.clientX - rect.left - 16);
   const y = Math.round(event.clientY - rect.top - 16);
-  console.log(x, y);
   return { x, y };
 }
 
@@ -133,9 +135,6 @@ function convetCords({ x, y }) {
       latitude = (Math.round(10 * ((3 * y) / 2 - 90)) / 10) * -1;
   }
 
-  if (width == 1080) {
-  }
-
   if (longitude > 180) {
     longitude = 180;
   } else if (longitude < -180) {
@@ -155,9 +154,9 @@ function decipher(data) {
 }
 console.log(0.7 + 0.1);
 
-function write(data, code) {
-  label.lat.innerHTML = `Latitude: ${data.latitude}°`;
-  label.long.innerHTML = `Longitude: ${data.longitude}°`;
+function write(data, code, { longitude, latitude }) {
+  label.lat.innerHTML = `Latitude: ${latitude}°`;
+  label.long.innerHTML = `Longitude: ${longitude}°`;
   label.temp.innerHTML = `Temperature ${data.current_weather.temperature} °C`;
   label.speed.innerHTML = `Wind Speed: ${data.current_weather.windspeed} k/hr`;
   label.weat.innerHTML = `Weather: ${code}`;
