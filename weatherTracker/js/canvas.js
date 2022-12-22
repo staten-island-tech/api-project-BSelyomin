@@ -67,6 +67,7 @@ const label = {
   temp: document.querySelector("#temp"),
   speed: document.querySelector("#speed"),
   weat: document.querySelector("#weat"),
+  city: document.querySelector("#city"),
 };
 
 // Make sure the image is loaded first otherwise nothing will draw.
@@ -82,6 +83,18 @@ canvas.addEventListener("mousedown", function (e) {
 });
 
 const getWeather = async ({ longitude, latitude }) => {
+  try {
+    let response = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,weathercode,windspeed_10m&current_weather=true`
+    );
+    let data = await response.json();
+    return data;
+  } catch (error) {
+    console.log("test");
+  }
+};
+
+const getCity = async ({ longitude, latitude }) => {
   try {
     let response = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,weathercode,windspeed_10m&current_weather=true`
