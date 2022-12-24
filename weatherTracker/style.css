@@ -90,3 +90,11 @@ canvas {
   }
 }  
 
+@media screen and (max-width:750px) {
+  .label {
+    font-size: 4rem;
+  }
+  .info {
+    font-size: 3rem;
+  }
+}

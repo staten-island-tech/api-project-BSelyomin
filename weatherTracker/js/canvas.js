@@ -46,16 +46,8 @@ function watchMedia() {
       ctx.canvas.width = 540;
       width = 3;
       break;
-
-    case match(560) && match(381, "min"):
-      background.src = "/equirectanglular4.png";
-      ctx.canvas.width = 360;
-      width = 4;
-      break;
-    case match(380):
-      background.src = "/equirectanglular5.png";
-      ctx.canvas.width = 240;
-      width = 5;
+    case match(560):
+      alert("Please rotate your phone for optimal experience.");
   }
   ctx.canvas.height = ctx.canvas.width / 2;
   clearScreen();
@@ -83,18 +75,6 @@ canvas.addEventListener("mousedown", function (e) {
 });
 
 const getWeather = async ({ longitude, latitude }) => {
-  try {
-    let response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,weathercode,windspeed_10m&current_weather=true`
-    );
-    let data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("test");
-  }
-};
-
-const getCity = async ({ longitude, latitude }) => {
   try {
     let response = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,weathercode,windspeed_10m&current_weather=true`
@@ -138,16 +118,7 @@ function convetCords({ x, y }) {
     case 3:
       longitude = Math.round(10 * ((2 * x) / 3 - 180)) / 10;
       latitude = (Math.round(10 * ((2 * y) / 3 - 90)) / 10) * -1;
-      break;
-    case 4:
-      longitude = Math.round(10 * (x - 180)) / 10;
-      latitude = (Math.round(10 * (y - 90)) / 10) * -1;
-      break;
-    case 5:
-      longitude = Math.round(10 * ((3 * x) / 2 - 180)) / 10;
-      latitude = (Math.round(10 * ((3 * y) / 2 - 90)) / 10) * -1;
   }
-
   if (longitude > 180) {
     longitude = 180;
   } else if (longitude < -180) {
@@ -181,4 +152,3 @@ function marker({ x, y }) {
   ctx.fillStyle = "red";
   ctx.fill();
 }
-//balls
