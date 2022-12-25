@@ -142,7 +142,7 @@ function write(data, code, { longitude, latitude }) {
   label.lat.innerHTML = `Latitude: ${latitude}°`;
   label.long.innerHTML = `Longitude: ${longitude}°`;
   label.temp.innerHTML = `Temperature ${data.current_weather.temperature} °C`;
-  label.speed.innerHTML = `Wind Speed: ${data.current_weather.windspeed} k/hr`;
+  label.speed.innerHTML = `Wind Speed: ${data.current_weather.windspeed} km/hr`;
   label.weat.innerHTML = `Weather: ${code}`;
 }
 
