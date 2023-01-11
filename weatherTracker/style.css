@@ -1,3 +1,5 @@
+@import "./button.css";
+
 html,
 body,
 * {
@@ -13,6 +15,10 @@ body {
   height: 100vh;
 }
 
+.units {
+  width: 10rem;
+  height: 5rem;
+}
 .hud {
   width: 100%;
   height: 100vh - 3rem;
@@ -27,7 +33,7 @@ body {
 canvas {
   display: block;
   margin: auto;
-  border: 1.5rem ridge rgba(211, 220, 50, .6);
+  border: 1.5rem ridge linear-gradient(#AF40FF, #5B42F3,#00DDEB);
   margin-bottom: 3rem;
 }
 
