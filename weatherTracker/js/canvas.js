@@ -1,4 +1,4 @@
-import "../style.css";
+import "../css/style.css";
 import { weatherCodes } from "./weatherCodes";
 
 const canvas = document.getElementById("canvas");
