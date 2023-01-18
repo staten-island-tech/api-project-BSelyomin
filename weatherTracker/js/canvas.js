@@ -64,12 +64,6 @@ const label = {
 
 // Make sure the image is loaded first otherwise nothing will draw.
 
-function clearScreen() {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.clientWidth, canvas.height);
-  ctx.drawImage(background, 0, 0);
-}
-
 canvas.addEventListener("mousedown", function (e) {
   display(canvas, e);
 });
