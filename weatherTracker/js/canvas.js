@@ -19,8 +19,6 @@ function match(px, input) {
   }
 }
 
-let temp = false;
-
 background.onload = function () {
   clearScreen();
 };
