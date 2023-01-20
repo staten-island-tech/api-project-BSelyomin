@@ -62,6 +62,12 @@ const label = {
 
 // Make sure the image is loaded first otherwise nothing will draw.
 
+function clearScreen() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.clientWidth, canvas.height);
+  ctx.drawImage(background, 0, 0);
+}
+
 canvas.addEventListener("mousedown", function (e) {
   display(canvas, e);
 });
@@ -90,8 +96,8 @@ async function display(canvas, event) {
 
 function getCursorPosition(canvas, event) {
   const rect = canvas.getBoundingClientRect();
-  const x = Math.round(event.clientX - rect.left - 16);
-  const y = Math.round(event.clientY - rect.top - 16);
+  const x = Math.round(event.clientX - rect.left);
+  const y = Math.round(event.clientY - rect.top);
   return { x, y };
 }
 
@@ -140,7 +146,7 @@ function write(data, code, { longitude, latitude }) {
 
 function marker({ x, y }) {
   ctx.beginPath(); // starts circle
-  ctx.arc(x, y, 5, 0, Math.PI * 2); // x,y , radius, start angle, end angle.
+  ctx.arc(x - 16, y - 16, 5, 0, Math.PI * 2); // x,y , radius, start angle, end angle.
   ctx.fillStyle = "red";
   ctx.fill();
 }
