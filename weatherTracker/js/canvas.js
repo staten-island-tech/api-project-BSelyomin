@@ -5,6 +5,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 let width = 1;
 let background = new Image();
+let type = "C";
 
 window.onresize = function () {
   console.log("resize");
@@ -48,6 +49,9 @@ function watchMedia() {
       alert("Please rotate your phone for optimal experience.");
   }
   ctx.canvas.height = ctx.canvas.width / 2;
+  label.border.style.cssText = `width: ${canvas.width + 32}px; height: ${
+    canvas.height + 32
+  }px;`;
   clearScreen();
 }
 
@@ -58,6 +62,9 @@ const label = {
   speed: document.querySelector("#speed"),
   weat: document.querySelector("#weat"),
   city: document.querySelector("#city"),
+  button: document.querySelector(".button-64"),
+  text: document.querySelector(".text"),
+  border: document.querySelector(".border"),
 };
 
 // Make sure the image is loaded first otherwise nothing will draw.
@@ -67,6 +74,16 @@ function clearScreen() {
   ctx.fillRect(0, 0, canvas.clientWidth, canvas.height);
   ctx.drawImage(background, 0, 0);
 }
+
+label.button.addEventListener("click", () => {
+  if (type === "C") {
+    label.text.textContent = "F°";
+    type = "F";
+  } else {
+    label.text.textContent = "C°";
+    type = "C";
+  }
+});
 
 canvas.addEventListener("mousedown", function (e) {
   display(canvas, e);
@@ -137,16 +154,31 @@ function decipher(data) {
 console.log(0.7 + 0.1);
 
 function write(data, code, { longitude, latitude }) {
-  label.lat.innerHTML = `Latitude: ${latitude}°`;
-  label.long.innerHTML = `Longitude: ${longitude}°`;
-  label.temp.innerHTML = `Temperature ${data.current_weather.temperature} °C`;
-  label.speed.innerHTML = `Wind Speed: ${data.current_weather.windspeed} km/hr`;
-  label.weat.innerHTML = `Weather: ${code}`;
+  if (type === "C") {
+    label.lat.innerHTML = `Latitude: ${latitude}°`;
+    label.long.innerHTML = `Longitude: ${longitude}°`;
+    label.temp.innerHTML = `Temperature ${data.current_weather.temperature} °C`;
+    label.speed.innerHTML = `Wind Speed: ${data.current_weather.windspeed} kph`;
+    label.weat.innerHTML = `Weather: ${code}`;
+  } else {
+    label.lat.innerHTML = `Latitude: ${latitude}°`;
+    label.long.innerHTML = `Longitude: ${longitude}°`;
+    label.temp.innerHTML = `Temperature ${Number(
+      convertTemp(data.current_weather.temperature).toFixed(2)
+    )} °F`;
+    label.speed.innerHTML = `Wind Speed: ${Number(
+      Math.round(data.current_weather.windspeed * 0.621371).toFixed(2)
+    )} mph`;
+    label.weat.innerHTML = `Weather: ${code}`;
+  }
 }
-
 function marker({ x, y }) {
   ctx.beginPath(); // starts circle
-  ctx.arc(x - 16, y - 16, 5, 0, Math.PI * 2); // x,y , radius, start angle, end angle.
+  ctx.arc(x, y, 5, 0, Math.PI * 2); // x,y , radius, start angle, end angle.
   ctx.fillStyle = "red";
   ctx.fill();
+}
+
+function convertTemp(temp) {
+  return (9 / 5) * temp + 32;
 }
